@@ -171,3 +171,40 @@ CREATE TABLE PREMIUM (
 
 -- ..:: CASO 2 ::..
 
+ -- Eliminar columna costo_total de MANTENCION
+ALTER TABLE MANTENCION DROP COLUMN costo_total;
+
+-- Primero eliminar la FK en DETALLE_SERVICIO que depende de MANTENCION
+ALTER TABLE DETALLE_SERVICIO DROP CONSTRAINT DET_SERV_FK_MANTENCION;
+
+-- Ahora eliminar la PK actual de MANTENCION
+ALTER TABLE MANTENCION DROP CONSTRAINT MANTENCION_PK;
+
+-- Crear la nueva PK compuesta
+ALTER TABLE MANTENCION ADD CONSTRAINT MANTENCION_PK 
+PRIMARY KEY (num_mantencion, cod_sucursal);
+
+-- Primero, DETALLE_SERVICIO necesita tener la columna cod_sucursal
+ALTER TABLE DETALLE_SERVICIO ADD cod_sucursal CHAR(3);
+
+-- Crear la FK compuesta hacia MANTENCION
+ALTER TABLE DETALLE_SERVICIO ADD CONSTRAINT DET_SERV_FK_MANTENCION
+FOREIGN KEY (mantencion_num, cod_sucursal)
+REFERENCES MANTENCION(num_mantencion, cod_sucursal);
+
+-- Email en CLIENTE debe ser único si se registra
+ALTER TABLE CLIENTE ADD CONSTRAINT CLIENTE_UN_EMAIL UNIQUE (email);
+
+-- Dígito verificador (dv) debe estar en 0–9 o 'K'
+ALTER TABLE CLIENTE ADD CONSTRAINT CLIENTE_CK_DV 
+CHECK (dv IN ('0','1','2','3','4','5','6','7','8','9','K'));
+
+-- Sueldo de MECANICO no puede ser inferior a 510000
+ALTER TABLE MECANICO ADD CONSTRAINT MECANICO_CK_SUELDO 
+CHECK (sueldo >= 510000);
+
+-- Estado de MANTENCION debe ser uno de los valores permitidos
+ALTER TABLE MANTENCION ADD CONSTRAINT MANTENCION_CK_ESTADO
+CHECK (estado IN ('Reserva','Ingresado','Entregado','Anulado'));
+
+-- ..:: CASO 3 ::..
