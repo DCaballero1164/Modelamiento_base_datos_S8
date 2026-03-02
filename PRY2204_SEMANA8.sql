@@ -208,3 +208,178 @@ ALTER TABLE MANTENCION ADD CONSTRAINT MANTENCION_CK_ESTADO
 CHECK (estado IN ('Reserva','Ingresado','Entregado','Anulado'));
 
 -- ..:: CASO 3 ::..
+
+-- SECUENCIAS
+
+-- Secuencia para SERVICIO (desde 400, incremento 2)
+CREATE SEQUENCE SEQ_SERVICIO START WITH 400 INCREMENT BY 2;
+
+-- Secuencia para CIUDAD (desde 165, incremento 5)
+CREATE SEQUENCE SEQ_CIUDAD START WITH 165 INCREMENT BY 5;
+
+-- POBLAR TABLAS
+
+-- PAIS
+INSERT INTO PAIS (nom_pais) VALUES ('Chile');
+INSERT INTO PAIS (nom_pais) VALUES ('Perú');
+INSERT INTO PAIS (nom_pais) VALUES ('Colombia');
+
+-- CIUDAD
+INSERT INTO CIUDAD (id_ciudad, nom_ciudad, cod_pais)
+VALUES (SEQ_CIUDAD.NEXTVAL, 'Santiago', 9);
+
+INSERT INTO CIUDAD (id_ciudad, nom_ciudad, cod_pais)
+VALUES (SEQ_CIUDAD.NEXTVAL, 'Lima', 12);
+
+INSERT INTO CIUDAD (id_ciudad, nom_ciudad, cod_pais)
+VALUES (SEQ_CIUDAD.NEXTVAL, 'Bogotá', 15);
+
+-- SUCURSAL
+INSERT INTO SUCURSAL (id_sucursal, nom_sucursal, calle, num_calle, cod_ciudad)
+VALUES ('S01', 'Providencia', 'Av. A. Varas', 234, 165);
+
+INSERT INTO SUCURSAL (id_sucursal, nom_sucursal, calle, num_calle, cod_ciudad)
+VALUES ('S02', 'Las 4 Esquinas', 'Av. Latina', 669, 170);
+
+INSERT INTO SUCURSAL (id_sucursal, nom_sucursal, calle, num_calle, cod_ciudad)
+VALUES ('S03', 'El Cafetero', 'Av. El Faro', 900, 175);
+
+-- SERVICIO
+INSERT INTO SERVICIO (id_servicio, descripcion, costo)
+VALUES (SEQ_SERVICIO.NEXTVAL, 'Cambio Luces', 45000);
+
+INSERT INTO SERVICIO (id_servicio, descripcion, costo)
+VALUES (SEQ_SERVICIO.NEXTVAL, 'Desabolladura', 67000);
+
+INSERT INTO SERVICIO (id_servicio, descripcion, costo)
+VALUES (SEQ_SERVICIO.NEXTVAL, 'Revisión Frenos', 30000);
+
+INSERT INTO SERVICIO (id_servicio, descripcion, costo)
+VALUES (SEQ_SERVICIO.NEXTVAL, 'Cambio Puerta Trasera', 50000);
+
+-- MECANICO
+-- Jorge Pablo Soto Sierpe
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Jorge', 'Pablo', 'Soto', 'Sierpe', 5400000, 2759000, 223580, NULL);
+
+-- Pedro Jose Manriquez Corral
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Pedro', 'Jose', 'Manriquez', 'Corral', NULL, 759000, 23980, NULL);
+
+-- Sandra Josefa Letelier S.
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Sandra', 'Josefa', 'Letelier', 'S.', 0, 659000, 22358, 460);
+
+-- Felipe M. Vidal A.
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Felipe', 'M.', 'Vidal', 'A.', NULL, 759000, 23580, 460);
+
+-- Jose Miguel Troncoso B.
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Jose', 'Miguel', 'Troncoso', 'B.', NULL, 659000, 44580, 474);
+
+-- Juan Pablo Sánchez R.
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Juan', 'Pablo', 'Sánchez', 'R.', NULL, 859000, 23380, 474);
+
+-- Carlos Felipe Soto J.
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Carlos', 'Felipe', 'Soto', 'J.', 0, 597000, 23580, 474);
+
+-- Alberto P. Cerda Ramírez
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Alberto', 'P.', 'Cerda', 'Ramírez', NULL, 559000, 22380, 460);
+
+-- Alejandra Gabriela Infanti R.
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Alejandra', 'Gabriela', 'Infanti', 'R.', NULL, 659000, 22380, 460);
+
+-- Roberto Patricio Gutierrez Sosa
+INSERT INTO MECANICO (pnombre, snombre, apat, amat, bono_jefatura, sueldo, monto_impuestos, cod_supervisor)
+VALUES ('Roberto', 'Patricio', 'Gutierrez', 'Sosa', NULL, 859000, 22380, 460);
+
+-- TIPO_AUTOMOVIL
+INSERT INTO TIPO_AUTOMOVIL (id_tipo, descripcion)
+VALUES ('T01', 'Sedán');
+
+INSERT INTO TIPO_AUTOMOVIL (id_tipo, descripcion)
+VALUES ('T02', 'SUV');
+
+INSERT INTO TIPO_AUTOMOVIL (id_tipo, descripcion)
+VALUES ('T03', 'Hatchback');
+
+-- MARCA
+INSERT INTO MARCA (id_marca, descripcion)
+VALUES (1, 'Toyota');
+
+INSERT INTO MARCA (id_marca, descripcion)
+VALUES (2, 'Hyundai');
+
+INSERT INTO MARCA (id_marca, descripcion)
+VALUES (3, 'Chevrolet');
+
+INSERT INTO MARCA (id_marca, descripcion)
+VALUES (4, 'Nissan');
+
+INSERT INTO MARCA (id_marca, descripcion)
+VALUES (5, 'Mazda');
+
+-- MODELO
+INSERT INTO MODELO (id_modelo, marca_id, descripcion)
+VALUES (100, 1, 'Corolla');
+
+INSERT INTO MODELO (id_modelo, marca_id, descripcion)
+VALUES (101, 2, 'Accent');
+
+INSERT INTO MODELO (id_modelo, marca_id, descripcion)
+VALUES (102, 3, 'Spark');
+
+INSERT INTO MODELO (id_modelo, marca_id, descripcion)
+VALUES (103, 4, 'Sentra');
+
+INSERT INTO MODELO (id_modelo, marca_id, descripcion)
+VALUES (104, 5, 'CX-5');
+
+-- CLIENTE 
+INSERT INTO CLIENTE (rut, dv, pnombre, snombre, apat, amat, telefono, email, tipo_cl)
+VALUES (12345678, '9', 'Juan', NULL, 'Pérez', NULL, '987654321', 'juan.perez@example.com', 'P');
+
+INSERT INTO CLIENTE (rut, dv, pnombre, snombre, apat, amat, telefono, email, tipo_cl)
+VALUES (87654321, 'K', 'María', NULL, 'González', NULL, '912345678', 'maria.gonzalez@example.com', 'E');
+
+INSERT INTO CLIENTE (rut, dv, pnombre, snombre, apat, amat, telefono, email, tipo_cl)
+VALUES (11223344, '5', 'Pedro', 'Luis', 'Ramírez', 'Soto', '911223344', 'pedro.ramirez@example.com', 'P');
+
+INSERT INTO CLIENTE (rut, dv, pnombre, snombre, apat, amat, telefono, email, tipo_cl)
+VALUES (55667788, '2', 'Ana', NULL, 'Fernández', 'López', '956677889', 'ana.fernandez@example.com', 'E');
+
+-- AUTOMOVIL
+INSERT INTO AUTOMOVIL (patente, anio, cant_puertas, km, color, cod_tipo_auto, cod_modelo, cod_marca, cl_rut)
+VALUES ('AAAA11', 2020, 4, 45000, 'Rojo', 'T01', 100, 1, 12345678);  -- Cliente Juan
+
+INSERT INTO AUTOMOVIL (patente, anio, cant_puertas, km, color, cod_tipo_auto, cod_modelo, cod_marca, cl_rut)
+VALUES ('BBBB22', 2019, 4, 60000, 'Azul', 'T01', 101, 2, 87654321);  -- Cliente María
+
+INSERT INTO AUTOMOVIL (patente, anio, cant_puertas, km, color, cod_tipo_auto, cod_modelo, cod_marca, cl_rut)
+VALUES ('CCCC33', 2021, 5, 30000, 'Negro', 'T02', 102, 3, 11223344); -- Cliente Pedro
+
+INSERT INTO AUTOMOVIL (patente, anio, cant_puertas, km, color, cod_tipo_auto, cod_modelo, cod_marca, cl_rut)
+VALUES ('DDDD44', 2018, 4, 80000, 'Blanco', 'T01', 103, 4, 55667788); -- Cliente Ana
+
+-- MANTENCION
+INSERT INTO MANTENCION (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado)
+VALUES (101, 'S01', TO_DATE('12-04-2023','DD-MM-YYYY'), NULL, 'AAAA11', 481, 'Reserva');
+
+INSERT INTO MANTENCION (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado)
+VALUES (102, 'S02', TO_DATE('21-02-2023','DD-MM-YYYY'), TO_DATE('21-02-2023','DD-MM-YYYY'), 'BBBB22', 502, 'Entregado');
+
+INSERT INTO MANTENCION (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado)
+VALUES (103, 'S02', TO_DATE('09-10-2023','DD-MM-YYYY'), NULL, 'CCCC33', 502, 'Anulado');
+
+INSERT INTO MANTENCION (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado)
+VALUES (104, 'S03', TO_DATE('11-08-2023','DD-MM-YYYY'), TO_DATE('18-08-2023','DD-MM-YYYY'), 'DDDD44', 509, 'Entregado');
+
+INSERT INTO MANTENCION (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado)
+VALUES (105, 'S03', TO_DATE('03-12-2023','DD-MM-YYYY'), NULL, 'CCCC33', 509, 'Ingresado');
+
+-- ..:: CASO 4 ::..
