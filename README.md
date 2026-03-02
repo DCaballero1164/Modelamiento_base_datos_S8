@@ -11,6 +11,7 @@ Carrera: Analista Programador Computacional
 
 Sede: Campus Virtual
 
+
 📘 Descripción general del sistema
 
 Este proyecto implementa un modelo relacional para la gestión de clientes, automóviles y mantenciones en un taller mecánico.
@@ -35,37 +36,37 @@ Consideraciones:
 
 - Los datos de prueba incluyen clientes con distintos RUT, automóviles variados y mantenciones en diferentes sucursales.
 
-📂 Tablas principales
 
-CLIENTE  (rut, dv, pnombre, snombre, apat, amat, telefono, email, tipo_cl)
+📂 Tablas principales (fuertes a débiles)
 
-AUTOMOVIL  (patente, anio, cant_puertas, km, color, cod_tipo_auto, cod_modelo, cod_marca, cl_rut)
+PAIS  (id_pais, nombre) → tabla raíz, no depende de nadie.
 
-MANTENCION  (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado)
+CIUDAD  (id_ciudad, nombre, region, id_pais) → depende de PAIS.
 
-MARCA  (id_marca, descripcion)
+SUCURSAL  (cod_sucursal, nombre, direccion, telefono, id_ciudad) → depende de CIUDAD.
 
-MODELO  (id_modelo, marca_id, descripcion)
+MARCA  (id_marca, descripcion) → independiente.
 
-TIPO_AUTOMOVIL  (id_tipo, descripcion)
+TIPO_AUTOMOVIL  (id_tipo, descripcion) → independiente.
 
-SERVICIO  (cod_servicio, descripcion, valor)
+MODELO  (id_modelo, marca_id, descripcion) → depende de MARCA.
 
-📂 Tablas secundarias
+CLIENTE  (rut, dv, pnombre, snombre, apat, amat, telefono, email, tipo_cl) → independiente.
 
-SUCURSAL  (cod_sucursal, nombre, direccion, telefono)
+MECANICO  (cod_mecanico, nombre, especialidad, sucursal_id) → depende de SUCURSAL.
 
-MECANICO  (cod_mecanico, nombre, especialidad, sucursal_id)
+SERVICIO  (cod_servicio, descripcion, valor) → independiente.
 
-DETALLE_SERVICIO  (num_mantencion, cod_servicio, cantidad, subtotal)
+AUTOMOVIL  (patente, anio, cant_puertas, km, color, cod_tipo_auto, cod_modelo, cod_marca, cl_rut) → depende de CLIENTE, MODELO, MARCA y TIPO_AUTOMOVIL.
 
-ESTANDAR  (id_estandar, descripcion, condiciones)
+MANTENCION  (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salida, patente_auto, cod_mecanico, estado) → depende de AUTOMOVIL, SUCURSAL y MECANICO.
 
-PREMIUM  (id_premium, descripcion, beneficios)
+DETALLE_SERVICIO  (num_mantencion, cod_servicio, cantidad, subtotal) → depende de MANTENCION y SERVICIO.
 
-CIUDAD  (id_ciudad, nombre, region)
+ESTANDAR  (id_estandar, descripcion, condiciones) → tabla secundaria de servicios, puede depender de SERVICIO.
 
-PAIS  (id_pais, nombre)
+PREMIUM  (id_premium, descripcion, beneficios) → tabla secundaria de servicios, puede depender de SERVICIO.
+
 
 ⚙️ Instrucciones para clonar y ejecutar el proyecto
 Clonar el repositorio desde GitHub:
