@@ -383,3 +383,68 @@ INSERT INTO MANTENCION (num_mantencion, cod_sucursal, fecha_ingreso, fecha_salid
 VALUES (105, 'S03', TO_DATE('03-12-2023','DD-MM-YYYY'), NULL, 'CCCC33', 509, 'Ingresado');
 
 -- ..:: CASO 4 ::..
+
+-- INFORME 1
+-- Seleccion de los datos de la tabla MECANICO
+SELECT 
+    -- Código del mecánico
+    cod_mecanico AS "ID MECANICO",
+    
+    -- Nombre completo, concatenando primer nombre + apellido paterno
+    pnombre || ' ' || apat AS "NOMBRE MECANICO",
+    
+    -- Sueldo actual del mecánico
+    sueldo AS "SALARIO",
+    
+    -- Monto de impuestos actuales
+    monto_impuestos AS "IMPUESTO ACTUAL",
+    
+    -- Impuesto rebajado, se aplica un descuento del 20% (queda el 80% del valor original)
+    (monto_impuestos * 0.8) AS "IMPUESTO REBAJADO",
+    
+    -- Sueldo con rebaja de impuestos. (sueldo - impuesto rebajado)
+    (sueldo - (monto_impuestos * 0.8)) AS "SUELDO CON REBAJA IMPUESTOS"
+
+FROM MECANICO
+
+-- Condiciones:
+-- Bono de jefatura debe ser nulo
+-- Impuestos actuales menores a 40.000
+WHERE bono_jefatura IS NULL
+  AND monto_impuestos < 40000
+
+-- Orden:
+-- Por impuestos actuales en orden descendente
+-- En caso de empate, por apellido paterno en orden ascendente
+ORDER BY monto_impuestos DESC, apat ASC;
+
+-- INFORME 2
+-- Seleccionamos los datos de la tabla MECANICO
+SELECT
+    -- Código del mecánico
+    cod_mecanico AS "IDENTIFICADOR",
+    
+    -- Nombre completo, concatenando primer nombre, segundo nombre y apellido paterno
+    pnombre || ' ' || NVL(snombre,'') || ' ' || apat AS "MECANICO",
+    
+    -- Sueldo actual
+    sueldo AS "SALARIO ACTUAL",
+    
+    -- Ajuste 5% del sueldo actual
+    (sueldo * 0.05) AS "AJUSTE",
+    
+    -- Sueldo reajustado (sueldo actual + ajuste)
+    (sueldo + (sueldo * 0.05)) AS "SUELDO REAJUSTADO"
+
+FROM MECANICO
+
+-- Condiciones:
+-- Mecánicos con sueldo entre 600.000 y 900.000 pesos
+-- O mecánicos que no tienen supervisor asignado (cod_supervisor IS NULL)
+WHERE (sueldo BETWEEN 600000 AND 900000)
+   OR (cod_supervisor IS NULL)
+
+-- Ordenamiento:
+-- Por sueldo actual en orden ascendente
+-- En caso de empate, por nombre completo en orden descendente
+ORDER BY sueldo ASC, (pnombre || ' ' || NVL(snombre,'') || ' ' || apat) DESC;
